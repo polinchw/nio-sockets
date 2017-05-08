@@ -24,6 +24,7 @@ public class EchoServer {
         server.configureBlocking(false);
         server.socket().bind(new InetSocketAddress(4444));
         server.register(selector, SelectionKey.OP_ACCEPT);
+        selection.attach(new Object());//Does this breaks on Solaris 10?
     }
 
     private void start() throws IOException {
