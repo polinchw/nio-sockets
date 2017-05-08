@@ -24,7 +24,6 @@ public class EchoServer {
         server.configureBlocking(false);
         server.socket().bind(new InetSocketAddress(4444));
         server.register(selector, SelectionKey.OP_ACCEPT);
-        selection.attach(new Object());//Does this breaks on Solaris 10?
     }
 
     private void start() throws IOException {
@@ -34,6 +33,7 @@ public class EchoServer {
             Iterator<SelectionKey> keyIterator = selector.selectedKeys().iterator();
             while (keyIterator.hasNext()) {
                 selection = keyIterator.next();
+                selection.attach(new ListenTarget(selection));//Does this breaks on Solaris 10?
                 keyIterator.remove();
                 if (!selection.isValid()) {
                     invalid();
